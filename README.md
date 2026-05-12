@@ -48,7 +48,6 @@ dash==2.18.2
 plotly==5.24.1
 pandas==2.2.3
 openpyxl==3.1.5
-requests==2.32.3
 gunicorn==23.0.0
 ```
 
@@ -86,7 +85,7 @@ git init
 git add .
 git commit -m "Dashboard mortalidad Colombia 2019"
 git branch -M main
-git remote add origin https://github.com/codemotozu/mortalidad-2019.git
+git remote add origin https://github.com/codemotozu/mortalidad-colombia-2019.git
 git push -u origin main
 ```
 
@@ -110,7 +109,7 @@ gunicorn --bind=0.0.0.0 --timeout 600 app:server
 ```
 
 **5. Verificar el despliegue**
-- URL pública: `https://<nombre-app>.azurewebsites.net`
+- URL pública: `https://mortalidad-colombia-2019-eea0dvaveqdsgvew.eastus-01.azurewebsites.net/`
 
 ## Software utilizado
 - **Python 3.11** – Lenguaje de programación
