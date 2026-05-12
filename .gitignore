@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+venv/
+env/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Azure / Oryx
+.deployment
+.python_packages/
+antenv/
+oryx-manifest.toml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
