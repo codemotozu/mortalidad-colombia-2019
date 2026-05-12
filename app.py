@@ -8,7 +8,6 @@ import os
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import requests
 import json
 import dash
 from dash import dcc, html, dash_table
@@ -114,15 +113,12 @@ muertes_dpto = (
     .rename(columns={"COD_DEPARTAMENTO_x": "COD_DPTO"})
 )
 
-# GeoJSON de Colombia por departamentos (DANE)
-GEOJSON_URL = (
-    "https://raw.githubusercontent.com/jemarciano/"
-    "colombia-geojson/master/colombia.geo.json"
-)
+# GeoJSON de Colombia por departamentos – archivo local.
+GEOJSON_PATH = os.path.join(BASE_DIR, "data/colombia.geo.json")
 try:
-    resp = requests.get(GEOJSON_URL, timeout=10)
-    colombia_geo = resp.json()
-    # Normalizar nombres en GeoJSON para hacer match
+    with open(GEOJSON_PATH, "r", encoding="utf-8") as _f:
+        colombia_geo = json.load(_f)
+    # Normalizar id para hacer match con COD_DPTO
     for feat in colombia_geo["features"]:
         feat["id"] = str(feat["properties"].get("DPTO", ""))
     muertes_dpto["COD_STR"] = muertes_dpto["COD_DPTO"].astype(str).str.zfill(2)
@@ -136,7 +132,7 @@ try:
         hover_data={"TOTAL": True, "COD_STR": False},
         color_continuous_scale="Blues",
         labels={"TOTAL": "Muertes"},
-        title="Distribución Total de Muertes por Departamento · Colombia 2019",
+        title="Mapa – Distribución Total de Muertes por Departamento · Colombia 2019",
     )
     fig_mapa.update_geos(
         fitbounds="locations",
@@ -153,7 +149,7 @@ except Exception:
         color="TOTAL",
         color_continuous_scale="Blues",
         labels={"TOTAL": "Total de Muertes", "DEPARTAMENTO": "Departamento"},
-        title="Total de Muertes por Departamento · Colombia 2019",
+        title="Mapa – Total de Muertes por Departamento · Colombia 2019",
         template=PLANTILLA,
     )
 
@@ -182,7 +178,7 @@ fig_lineas = px.line(
     y="TOTAL",
     markers=True,
     labels={"MES_NOMBRE": "Mes", "TOTAL": "Total de Muertes"},
-    title="Total de Muertes por Mes · Colombia 2019",
+    title="Gráfico de Líneas – Total de Muertes por Mes · Colombia 2019",
     template=PLANTILLA,
     color_discrete_sequence=[COLOR_PRIMARIO],
     category_orders={"MES_NOMBRE": list(MESES.values())},
@@ -222,7 +218,7 @@ fig_violencia = px.bar(
     color="HOMICIDIOS",
     color_continuous_scale=["#FFCCCC", COLOR_SECUNDARIO],
     labels={"HOMICIDIOS": "Homicidios (X95)", "MUNICIPIO": "Ciudad"},
-    title="Top 5 Ciudades más Violentas · Homicidios por Arma de Fuego (X95) · 2019",
+    title="Gráfico de Barras – 5 Ciudades más Violentas · Homicidios Código X95 · Colombia 2019",
     template=PLANTILLA,
     text="HOMICIDIOS",
 )
@@ -256,7 +252,7 @@ fig_circular = px.pie(
     bottom10,
     names="MUNICIPIO",
     values="TOTAL",
-    title="10 Ciudades con Menor Índice de Mortalidad · Colombia 2019",
+    title="Gráfico Circular – 10 Ciudades con Menor Índice de Mortalidad · Colombia 2019",
     template=PLANTILLA,
     hole=0.35,
     color_discrete_sequence=px.colors.qualitative.Set3,
@@ -360,7 +356,7 @@ fig_sexo = px.bar(
         "TOTAL": "Total de Muertes",
         "SEXO_NOMBRE": "Sexo",
     },
-    title="Muertes por Sexo y Departamento · Colombia 2019",
+    title="Gráfico de Barras Apiladas – Muertes por Sexo en cada Departamento · Colombia 2019",
     template=PLANTILLA,
     color_discrete_map={
         "Masculino": COLOR_PRIMARIO,
@@ -402,7 +398,7 @@ fig_hist = px.bar(
     color="TOTAL",
     color_continuous_scale=["#B3CCF5", COLOR_PRIMARIO],
     labels={"ETAPA_VIDA": "Etapa del Ciclo de Vida", "TOTAL": "Total de Muertes"},
-    title="Distribución de Muertes por Etapa del Ciclo de Vida (GRUPO_EDAD1) · Colombia 2019",
+    title="Histograma – Distribución de Muertes por GRUPO_EDAD1 (Ciclo de Vida) · Colombia 2019",
     template=PLANTILLA,
     text="TOTAL",
 )
@@ -477,9 +473,9 @@ app.layout = html.Div(
                 html.Div(
                     style=CARD_STYLE,
                     children=[
-                        html.H3("Mapa de Muertes por Departamento",
+                        html.H3("Mapa – Distribución Total de Muertes por Departamento",
                                 style={"color": COLOR_PRIMARIO, "marginTop": 0}),
-                        html.P("Distribución geográfica del total de muertes registradas en Colombia durante 2019.",
+                        html.P("Visualización de la distribución total de muertes por departamento en Colombia para el año 2019.",
                                style={"color": "#555", "fontSize": "13px"}),
                         dcc.Graph(figure=fig_mapa, config={"displayModeBar": True}),
                     ],
@@ -489,9 +485,9 @@ app.layout = html.Div(
                 html.Div(
                     style=CARD_STYLE,
                     children=[
-                        html.H3("Muertes por Mes",
+                        html.H3("Gráfico de Líneas – Total de Muertes por Mes",
                                 style={"color": COLOR_PRIMARIO, "marginTop": 0}),
-                        html.P("Tendencia mensual del total de defunciones a lo largo del año 2019.",
+                        html.P("Representación del total de muertes por mes en Colombia, mostrando variaciones a lo largo del año.",
                                style={"color": "#555", "fontSize": "13px"}),
                         dcc.Graph(figure=fig_lineas, config={"displayModeBar": True}),
                     ],
@@ -504,9 +500,9 @@ app.layout = html.Div(
                         html.Div(
                             style=CARD_STYLE | {"marginBottom": 0},
                             children=[
-                                html.H3("Ciudades más Violentas",
+                                html.H3("Gráfico de Barras – 5 Ciudades más Violentas",
                                         style={"color": COLOR_PRIMARIO, "marginTop": 0}),
-                                html.P("Top 5 municipios con mayor número de homicidios registrados con código X95 (disparos de arma de fuego).",
+                                html.P("Visualización de las 5 ciudades más violentas de Colombia, considerando homicidios con código X95 (agresión con disparo de armas de fuego y casos no especificados).",
                                        style={"color": "#555", "fontSize": "13px"}),
                                 dcc.Graph(figure=fig_violencia, config={"displayModeBar": True}),
                             ],
@@ -514,9 +510,9 @@ app.layout = html.Div(
                         html.Div(
                             style=CARD_STYLE | {"marginBottom": 0},
                             children=[
-                                html.H3("Ciudades con Menor Mortalidad",
+                                html.H3("Gráfico Circular – 10 Ciudades con Menor Índice de Mortalidad",
                                         style={"color": COLOR_PRIMARIO, "marginTop": 0}),
-                                html.P("Los 10 municipios con el menor número de defunciones registradas en 2019.",
+                                html.P("Muestra las 10 ciudades con menor índice de mortalidad registrado en Colombia durante 2019.",
                                        style={"color": "#555", "fontSize": "13px"}),
                                 dcc.Graph(figure=fig_circular, config={"displayModeBar": True}),
                             ],
@@ -530,9 +526,9 @@ app.layout = html.Div(
                 html.Div(
                     style=CARD_STYLE,
                     children=[
-                        html.H3("Top 10 Causas de Muerte en Colombia",
+                        html.H3("Tabla – 10 Principales Causas de Muerte en Colombia",
                                 style={"color": COLOR_PRIMARIO, "marginTop": 0}),
-                        html.P("Principales causas de defunción ordenadas por número total de casos, con código CIE-10 y descripción.",
+                        html.P("Listado de las 10 principales causas de muerte en Colombia, incluyendo su código CIE-10, nombre y total de casos (ordenadas de mayor a menor).",
                                style={"color": "#555", "fontSize": "13px", "marginBottom": "16px"}),
                         tabla_causas,
                     ],
@@ -542,9 +538,9 @@ app.layout = html.Div(
                 html.Div(
                     style=CARD_STYLE,
                     children=[
-                        html.H3("Muertes por Sexo y Departamento",
+                        html.H3("Gráfico de Barras Apiladas – Muertes por Sexo en cada Departamento",
                                 style={"color": COLOR_PRIMARIO, "marginTop": 0}),
-                        html.P("Comparación de defunciones masculinas y femeninas por departamento. Permite identificar diferencias de género en la mortalidad.",
+                        html.P("Comparación del total de muertes por sexo en cada departamento, para analizar diferencias significativas entre géneros.",
                                style={"color": "#555", "fontSize": "13px"}),
                         dcc.Graph(figure=fig_sexo, config={"displayModeBar": True}),
                     ],
@@ -554,9 +550,9 @@ app.layout = html.Div(
                 html.Div(
                     style=CARD_STYLE,
                     children=[
-                        html.H3("Distribución de Muertes por Etapa del Ciclo de Vida",
+                        html.H3("Histograma – Distribución por GRUPO_EDAD1 (Ciclo de Vida)",
                                 style={"color": COLOR_PRIMARIO, "marginTop": 0}),
-                        html.P("Distribución de las defunciones según la variable GRUPO_EDAD1, agrupadas en etapas del ciclo de vida definidas por el DANE.",
+                        html.P("Distribución de muertes agrupando los valores de la variable GRUPO_EDAD1 según los rangos definidos en la tabla de referencia, para identificar patrones de mortalidad a lo largo del ciclo de vida.",
                                style={"color": "#555", "fontSize": "13px"}),
                         dcc.Graph(figure=fig_hist, config={"displayModeBar": True}),
                     ],
