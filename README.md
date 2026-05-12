@@ -55,7 +55,7 @@ gunicorn==23.0.0
 ## Instalación y ejecución local
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/<tu-usuario>/mortalidad-colombia-2019.git
+git clone https://github.com/codemotozu/mortalidad-colombia-2019.git
 cd mortalidad-colombia-2019
 
 # 2. Crear entorno virtual
@@ -86,7 +86,7 @@ git init
 git add .
 git commit -m "Dashboard mortalidad Colombia 2019"
 git branch -M main
-git remote add origin https://github.com/<usuario>/mortalidad-2019.git
+git remote add origin https://github.com/codemotozu/mortalidad-2019.git
 git push -u origin main
 ```
 
