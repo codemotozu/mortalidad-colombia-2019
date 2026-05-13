@@ -114,7 +114,7 @@ muertes_dpto = (
 )
 
 # GeoJSON de Colombia por departamentos – archivo local.
-GEOJSON_PATH = os.path.join(BASE_DIR, "data/colombia.geo.json")
+GEOJSON_PATH = os.path.join(BASE_DIR, "data/Colombia.geo.json")
 try:
     with open(GEOJSON_PATH, "r", encoding="utf-8") as _f:
         colombia_geo = json.load(_f)
@@ -455,7 +455,11 @@ app.layout = html.Div(
             style=HEADER_STYLE,
             children=[
                 html.H1(
-                    "Dashboard de Mortalidad · Colombia 2019",
+                    [
+                        "Presentado por: Carolina Rodriguez Chacon - universidad de la Salle",
+                        html.Br(),
+                        "Dashboard de Mortalidad · Colombia 2019",
+                    ],
                     style={"color": "white", "margin": 0, "fontSize": "26px"},
                 ),
                 html.P(
