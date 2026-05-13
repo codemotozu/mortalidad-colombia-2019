@@ -456,7 +456,7 @@ app.layout = html.Div(
             children=[
                 html.H1(
                     [
-                        "Presentado por: Carolina Rodriguez Chacon - universidad de la Salle",
+                        "Presentado por: Carolina Rodriguez Chacon - Universidad de La Salle",
                         html.Br(),
                         "Dashboard de Mortalidad · Colombia 2019",
                     ],

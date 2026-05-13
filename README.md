@@ -9,14 +9,18 @@ Analizar patrones demográficos y regionales de la mortalidad en Colombia 2019 m
 ## Estructura del proyecto
 ```
 mortalidad_colombia/
-├── app.py              # Aplicación principal Dash (lógica + layout)
-├── requirements.txt    # Dependencias Python
-├── startup.txt         # Comando de inicio para Azure App Service
-├── README.md           # Este archivo
+├── app.py                                      # Aplicación principal Dash (lógica + layout)
+├── requirements.txt                            # Dependencias Python
+├── startup.txt                                 # Comando de inicio para Azure App Service
+├── README.md                                   # Este archivo
+├── .github/
+│   └── workflows/
+│       └── main_mortalidad-colombia-2019.yml   # Pipeline CI/CD GitHub Actions → Azure
 └── data/
-    ├── NoFetal2019.xlsx        # Datos de mortalidad DANE 2019
-    ├── Divipola.xlsx           # División político-administrativa
-    └── CodigosDeMuerte.xlsx    # Catálogo CIE-10 DANE
+    ├── Anexo1.NoFetal2019_CE_15-03-23.xlsx     # Datos de mortalidad no fetal DANE 2019
+    ├── Divipola_CE_.xlsx                       # División político-administrativa (DIVIPOLA)
+    ├── Anexo2.CodigosDeMuerte_CE_15-03-23.xlsx # Catálogo de causas de muerte CIE-10 DANE
+    └── Colombia.geo.json                       # GeoJSON de departamentos colombianos
 ```
 
 ## Visualizaciones con explicación de resultados
