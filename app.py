@@ -109,7 +109,8 @@ PLANTILLA        = "plotly_white"
 muertes_dpto = (
     datos.groupby(["COD_DEPARTAMENTO_x", "DEPARTAMENTO"])
     .size()
-    .reset_index(name="TOTAL")
+    .rename("TOTAL")
+    .reset_index()
     .rename(columns={"COD_DEPARTAMENTO_x": "COD_DPTO"})
 )
 
@@ -167,7 +168,8 @@ fig_mapa.update_layout(
 # ────────────────────────────────────────────
 muertes_mes = (
     datos.groupby("MES").size()
-    .reset_index(name="TOTAL")
+    .rename("TOTAL")
+    .reset_index()
     .sort_values("MES")
 )
 muertes_mes["MES_NOMBRE"] = muertes_mes["MES"].map(MESES)
@@ -205,7 +207,8 @@ fig_lineas.update_layout(
 homicidios_x95 = datos[datos["COD_MUERTE"].str.startswith("X95", na=False)]
 top5_violencia = (
     homicidios_x95.groupby("MUNICIPIO").size()
-    .reset_index(name="HOMICIDIOS")
+    .rename("HOMICIDIOS")
+    .reset_index()
     .sort_values("HOMICIDIOS", ascending=False)
     .head(5)
 )
@@ -240,7 +243,8 @@ fig_violencia.update_layout(
 # ────────────────────────────────────────────
 muertes_ciudad = (
     datos.groupby("MUNICIPIO").size()
-    .reset_index(name="TOTAL")
+    .rename("TOTAL")
+    .reset_index()
 )
 bottom10 = (
     muertes_ciudad[muertes_ciudad["TOTAL"] > 0]
@@ -342,7 +346,8 @@ muertes_sexo_dpto = (
     datos[datos["SEXO"].isin([1, 2])]
     .groupby(["DEPARTAMENTO", "SEXO_NOMBRE"])
     .size()
-    .reset_index(name="TOTAL")
+    .rename("TOTAL")
+    .reset_index()
 )
 
 fig_sexo = px.bar(
@@ -384,7 +389,8 @@ fig_sexo.update_layout(
 # ────────────────────────────────────────────
 conteo_edad = (
     datos.groupby("ETAPA_VIDA").size()
-    .reset_index(name="TOTAL")
+    .rename("TOTAL")
+    .reset_index()
 )
 conteo_edad["ETAPA_VIDA"] = pd.Categorical(
     conteo_edad["ETAPA_VIDA"], categories=ORDEN_EDAD, ordered=True
@@ -456,7 +462,7 @@ app.layout = html.Div(
             children=[
                 html.H1(
                     [
-                        "Presentado por: Carolina Rodriguez Chacon - Universidad de La Salle",
+                        "Presentado por: Carolina Rodríguez Chacón - Universidad de La Salle",
                         html.Br(),
                         "Dashboard de Mortalidad · Colombia 2019",
                     ],

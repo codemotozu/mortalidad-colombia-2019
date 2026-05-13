@@ -26,25 +26,38 @@ mortalidad_colombia/
 ## Visualizaciones con explicación de resultados
 
 ### 1. Mapa – Distribución de muertes por departamento
-Muestra la concentración geográfica de defunciones. **Bogotá D.C.** (38.760), **Antioquia** (34.473) y **Valle del Cauca** (28.443) concentran el mayor volumen, lo que refleja tanto su alta densidad poblacional como la carga de enfermedades crónicas en centros urbanos.
+Muestra la concentración geográfica de defunciones mediante un mapa coroplético con GeoJSON oficial de Colombia. Los departamentos con mayor intensidad de color (azul oscuro) corresponden a **Bogotá D.C.**, **Antioquia** y **Valle del Cauca**, que concentran el mayor volumen de muertes por su alta densidad poblacional y carga de enfermedades crónicas en centros urbanos. Los departamentos de la Amazonía y el Pacífico presentan los menores registros.
 
 ### 2. Gráfico de líneas – Muertes por mes
-La tendencia mensual revela que los meses de **enero y marzo** presentan picos de mortalidad, asociados a enfermedades respiratorias en temporadas frías. Se observa una leve disminución en mitad del año y un repunte al final.
+**Enero** (~21.000) y **diciembre** registran los valores más altos del año, con un segundo pico en **julio–agosto** (~21.000). **Febrero** es el mes con menor mortalidad (~18.100). El patrón sugiere mayor carga de muertes en los extremos del año y a mediados, coincidiendo con temporadas de lluvia y circulación de virus respiratorios.
 
 ### 3. Gráfico de barras – Top 5 ciudades más violentas (X95)
-**Santiago de Cali** lidera con 971 homicidios por arma de fuego (código X95), seguido por Bogotá (601) y Medellín (428). Esto refleja problemas estructurales de violencia urbana concentrados en las tres principales ciudades del país.
+Homicidios por arma de fuego (código CIE-10 X95): **Santiago de Cali** lidera con **971**, seguido de **Bogotá D.C.** (601), **Medellín** (428), **Barranquilla** (260) y **San José de Cúcuta** (206). Refleja problemas estructurales de violencia urbana en las principales ciudades del país.
 
 ### 4. Gráfico circular – 10 ciudades con menor mortalidad
-Municipios como **Alto Baudó**, **Nuquí** y otros registraron solo 1 defunción en 2019, lo que puede indicar subregistro en zonas remotas o poblaciones muy pequeñas.
+Los 10 municipios con menor registro de muertes — **Nuquí**, **Alto Baudó**, **Taraira**, **Margarita**, **El Encanto**, **Puerto Arica**, **Puerto Alegría**, **Mapiripana**, **San Fernando** y **Hato** — registraron cada uno **1 defunción** (10% del total en este grupo). Indica subregistro en zonas remotas o poblaciones muy pequeñas sin presencia institucional efectiva.
 
 ### 5. Tabla – Top 10 causas de muerte
-El **Infarto Agudo del Miocardio (I21)** es la principal causa con 35.323 casos, seguido de **EPOC (J44)** con 15.804. Las enfermedades cardiovasculares y respiratorias dominan, evidenciando la transición epidemiológica en Colombia.
+| # | Código | Causa | Total |
+|---|--------|-------|-------|
+| 1 | I21 | Infarto Agudo del Miocardio | 35.323 |
+| 2 | J44 | Enf. Pulmonares Obstructivas Crónicas (EPOC) | 15.804 |
+| 3 | X95 | Agresión con disparo de armas de fuego | 9.273 |
+| 4 | J18 | Neumonía, organismo no especificado | 7.437 |
+| 5 | C16 | Tumor Maligno del Estómago | 5.434 |
+| 6 | E14 | Diabetes Mellitus no especificada | 5.249 |
+| 7 | C34 | Tumor Maligno de Bronquios y Pulmón | 4.499 |
+| 8 | I11 | Enfermedad Cardíaca Hipertensiva | 3.635 |
+| 9 | C50 | Tumor Maligno de la Mama | 3.633 |
+| 10 | C61 | Tumor Maligno de la Próstata | 3.437 |
+
+Las enfermedades cardiovasculares y respiratorias crónicas dominan, evidenciando la transición epidemiológica en Colombia.
 
 ### 6. Barras apiladas – Muertes por sexo y departamento
-En todos los departamentos el número de muertes masculinas supera al femenino, siendo la diferencia más pronunciada en departamentos con alta violencia. La mortalidad masculina representa ~55% del total nacional.
+En todos los departamentos el número de muertes masculinas supera al femenino. La diferencia es más pronunciada en departamentos con alta violencia (Antioquia, Valle del Cauca, Córdoba), donde los homicidios afectan desproporcionadamente a hombres. La mortalidad masculina representa aproximadamente el **55% del total nacional**.
 
 ### 7. Histograma – Distribución por ciclo de vida
-El grupo **Vejez (60-84 años)** concentra la mayor cantidad de defunciones, seguido de **Adultez intermedia (45-59 años)**. La mortalidad infantil y neonatal, aunque menor en volumen, sigue siendo relevante en términos de años de vida potencialmente perdidos.
+El grupo **Vejez (60-84 años)** concentra la mayor cantidad de defunciones con **115.453** casos, seguido de **Longevidad (85-100+ años)** con **56.061** y **Adultez intermedia (45-59 años)** con **29.105**. La mortalidad infantil y neonatal (4.520 y 2.771 respectivamente), aunque menor en volumen, sigue siendo relevante en términos de años de vida potencialmente perdidos (AVPP).
 
 ## Requisitos
 ```
